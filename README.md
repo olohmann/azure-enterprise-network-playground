@@ -38,7 +38,7 @@ shell.
 
 ```sh
 cd ./src/
-./tf.ps1 -Apply -TfPrefix contoso -TargetPath 01-enterprise-network-simulation -Force -LeaveFirewallOpen -SkipFirewallUpdate -Verbose 
+./tf.ps1 -Apply -TfPrefix contoso -TargetPath 01-enterprise-network-simulation -Download -Force -LeaveFirewallOpen -SkipFirewallUpdate -Verbose 
 ```
 
 The `-TfPrefix` parameter can be changed to a value that depicts your setup, e.g. 'fabrikam', 'foo', or 'contoso' (regex: "[a-z]+").
