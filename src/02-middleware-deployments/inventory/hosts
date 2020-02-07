@@ -1,0 +1,2 @@
+[proxies]
+10.0.2.4 ansible_connection=ssh ansible_user=azureuser

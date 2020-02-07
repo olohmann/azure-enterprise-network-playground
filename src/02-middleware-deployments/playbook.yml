@@ -1,0 +1,9 @@
+---
+- name: Install Squid Proxy
+  hosts: proxies
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - role: squid
+      squid_port: 3128
