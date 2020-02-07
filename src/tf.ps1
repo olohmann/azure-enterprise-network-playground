@@ -32,7 +32,7 @@ Set-StrictMode -Version latest
 $ErrorActionPreference = "Stop"
 
 $ScriptVersion = [version]"2.0.0"
-$TerrafomMinimumVersion = [version]"0.12.18"
+$TerrafomMinimumVersion = [version]"0.12.20"
 $TerraformNoColor = if ($NoColor) { "-no-color" } else { "" }
 $TerraformPlanPath = "terraform.tfplan"
 
