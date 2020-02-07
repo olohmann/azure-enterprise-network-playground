@@ -1,17 +1,15 @@
-# Deploy and Enterprise-Like Network Setup in Azure
+# Deploy an Enterprise-Like Network Setup in Azure
 
-This repo contains a set auf automation helpers that will deploy a network setup in Azure that can be 
-used to experiment with typical Enterprise challenges in networking. One very common scenario
-is the existence of a Proxy-server that is used to safeguard the egress communication at one specific
-choke point.
+This repository contains a set of automation helpers that will deploy a typical Enterprise network setup in Azure. This setup can be used to experiment arount the typical challenges in such a setup. One very common scenario, for example,
+is the existence of a Proxy-server that is used to safeguard the egress communication. 
 
 ## Overview
 
-This is basically the outcome of the infrastructure as code artifacts which are provided in this repository: 
+This is basically the outcome of the execution of the infrastructure as code artifacts which are provided in this repository: 
 
 ![alt text](./doc/Overview.png "Overview")
 
-An simulated "On-Premise" virtual network is deployed which hosts a good old [Squid proxy](http://www.squid-cache.org/) 
+A simulated "On-Premise" virtual network is deployed which hosts a good old [Squid proxy](http://www.squid-cache.org/) 
 VM and a bastion VM. The proxy is configured to allow outgoing HTTP traffic on port 80 and 443. 
 It is fully whitelisted and you can use the Squid access logs to analyse the traffic.
 
