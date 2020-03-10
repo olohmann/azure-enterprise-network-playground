@@ -7,12 +7,16 @@ resource "azurerm_virtual_network" "spoke_vnet" {
 }
 
 resource "azurerm_subnet" "spoke_subnet_default" {
-  for_each             = var.spoke_vnets_configuration
-  name                 = "${each.key}-subnet"
-  resource_group_name  = azurerm_resource_group.rg.name
-  address_prefix       = each.value.subnet
-  virtual_network_name = azurerm_virtual_network.spoke_vnet[each.key].name
+  for_each                  = var.spoke_vnets_configuration
+  name                      = "${each.key}-subnet"
+  resource_group_name       = azurerm_resource_group.rg.name
+  address_prefix            = each.value.subnet
+  virtual_network_name      = azurerm_virtual_network.spoke_vnet[each.key].name
   network_security_group_id = azurerm_network_security_group.spoke_nsg.id
+
+  lifecycle {
+    ignore_changes = [route_table_id]
+  }
 }
 
 resource "azurerm_subnet_network_security_group_association" "spoke_subnet_to_spoke_nsg" {
@@ -51,3 +55,16 @@ resource "azurerm_network_security_group" "spoke_nsg" {
   }
 }
 
+resource "azurerm_private_dns_zone" "spoke_private_dns_zone" {
+  for_each            = var.spoke_vnets_configuration
+  name                = "${each.key}.${var.azure_private_dns_domain}"
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "example" {
+  for_each              = var.spoke_vnets_configuration
+  name                  = "${each.key}-spoke-link"
+  resource_group_name   = azurerm_resource_group.rg.name
+  private_dns_zone_name = azurerm_private_dns_zone.spoke_private_dns_zone[each.key].name
+  virtual_network_id    = azurerm_virtual_network.spoke_vnet[each.key].id
+}

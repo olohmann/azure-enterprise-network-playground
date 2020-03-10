@@ -16,10 +16,37 @@ variable "bastion_name" {
   default = "bastion"
 }
 
-/* ---- Bastion ---- */
-variable "proxy_name" {
+/* ---- Proxy ---- */
+variable "proxy_server_name" {
   type    = string
   default = "proxy"
+}
+
+/* ---- DNS ---- */
+variable "azure_private_dns_domain" {
+  type    = string
+  default = "private.contoso.net"
+}
+
+variable "dns_vm_name" {
+  type    = string
+  default = "dns"
+}
+
+variable "dns_private_azure_dns_forwarder_vm_name" {
+  type    = string
+  default = "dns-azure-private-dns-forwarder"
+}
+
+variable "dns_on_prem_vm_name" {
+  type    = string
+  default = "dns-on-prem"
+}
+
+/* ---- Spoke Sample VM ---- */
+variable "spoke_vm_name" {
+  type    = string
+  default = "spoke"
 }
 
 /* ---- Virtual Machine ---- */
@@ -44,9 +71,11 @@ variable "hub_vnet_configuration" {
   type = map
   default = {
     config = {
-      address_space  = ["10.10.0.0/22"],
-      gateway_subnet = "10.10.0.0/24",
-      nva_subnet     = "10.10.1.0/24"
+      address_space                      = ["10.10.0.0/22"],
+      gateway_subnet                     = "10.10.0.0/24",
+      nva_subnet                         = "10.10.1.0/24",
+      dns_subnet                         = "10.10.2.0/24",
+      private_azure_dns_forwarder_subnet = "10.10.3.0/24"
     }
   }
 }
@@ -58,11 +87,11 @@ variable "spoke_vnets_configuration" {
       vnet_cidr = ["10.50.0.0/24"]
       subnet    = "10.50.0.0/24"
     },
-    /*
     s2 = {
       vnet_cidr = ["10.50.1.0/24"]
       subnet    = "10.50.1.0/24"
-    },
+    }
+    /*
     s3 = {
       vnet_cidr = ["10.50.2.0/24"]
       subnet    = "10.50.2.0/24"

@@ -1,5 +1,3 @@
-# FIXME: When PR is done, https://github.com/terraform-providers/terraform-provider-azurerm/pull/4096
-
 resource "azurerm_public_ip" "proxy_pip" {
   name                = "${local.prefix_kebap}-proxy-pip"
   location            = azurerm_resource_group.rg.location
@@ -8,21 +6,24 @@ resource "azurerm_public_ip" "proxy_pip" {
 }
 
 resource "azurerm_network_interface" "proxy_nic" {
-  name                      = "${local.prefix_kebap}-${var.proxy_name}-nic"
+  name                      = "${local.prefix_kebap}-${var.proxy_server_name}-nic"
   location                  = azurerm_resource_group.rg.location
   resource_group_name       = azurerm_resource_group.rg.name
   network_security_group_id = azurerm_network_security_group.proxy_nsg.id
 
   ip_configuration {
-    name                          = "${local.prefix_kebap}-${var.proxy_name}-ipconfig"
+    name                          = "${local.prefix_kebap}-${var.proxy_server_name}-ipconfig"
     subnet_id                     = azurerm_subnet.on_premise_proxy_subnet.id
-    private_ip_address_allocation = "dynamic"
     public_ip_address_id          = azurerm_public_ip.proxy_pip.id
+
+    // Static Private IP
+    private_ip_address_allocation = "static"
+    private_ip_address            = cidrhost(azurerm_subnet.on_premise_proxy_subnet.address_prefix, 4)
   }
 }
 
 resource "azurerm_network_security_group" "proxy_nsg" {
-  name                = "${local.prefix_kebap}-${var.proxy_name}-nsg"
+  name                = "${local.prefix_kebap}-${var.proxy_server_name}-nsg"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -76,7 +77,7 @@ resource "azurerm_network_security_group" "proxy_nsg" {
 }
 
 resource "azurerm_virtual_machine" "proxy_vm" {
-  name                  = "${local.prefix_kebap}-${var.proxy_name}-vm"
+  name                  = "${local.prefix_kebap}-${var.proxy_server_name}-vm"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.proxy_nic.id]
@@ -96,7 +97,7 @@ resource "azurerm_virtual_machine" "proxy_vm" {
   }
 
   storage_os_disk {
-    name              = "${local.prefix_kebap}-${var.proxy_name}-osdisk"
+    name              = "${local.prefix_kebap}-${var.proxy_server_name}-osdisk"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Premium_LRS"
@@ -104,7 +105,7 @@ resource "azurerm_virtual_machine" "proxy_vm" {
   }
 
   os_profile {
-    computer_name  = var.proxy_name
+    computer_name  = var.proxy_server_name
     admin_username = var.admin_username
   }
 
