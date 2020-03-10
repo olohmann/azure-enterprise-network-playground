@@ -1,3 +1,5 @@
+02-middleware-deployments/roles/cloudalchemy.coredns
+
 *.tgz
 **/*-config.json
 **/*-inventory.cfg
@@ -50,3 +52,4 @@ override.tf.json
 # !example_override.tf
 
 # End of https://www.gitignore.io/api/terraform
+/src/02-middleware-deployments/roles/cloudalchemy.coredns/

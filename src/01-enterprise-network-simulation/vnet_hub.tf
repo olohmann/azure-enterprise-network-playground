@@ -23,11 +23,10 @@ resource "azurerm_subnet" "hub_azure_firewall_subnet" {
 }
 
 resource "azurerm_subnet" "hub_dns_subnet" {
-  name                 = "dns_subnet"
-  resource_group_name  = azurerm_resource_group.rg.name
-  address_prefix       = var.hub_vnet_configuration.config.dns_subnet
-  virtual_network_name = azurerm_virtual_network.hub_vnet.name
-
+  name                      = "dns_subnet"
+  resource_group_name       = azurerm_resource_group.rg.name
+  address_prefix            = var.hub_vnet_configuration.config.dns_subnet
+  virtual_network_name      = azurerm_virtual_network.hub_vnet.name
   network_security_group_id = azurerm_network_security_group.hub_nsg.id
 
   lifecycle {
@@ -48,12 +47,12 @@ resource "azurerm_subnet" "hub_private_azure_dns_forwarder_subnet" {
   }
 }
 
-resource "azurerm_subnet_network_security_group_association" "spoke_subnet_to_spoke_nsg" {
+resource "azurerm_subnet_network_security_group_association" "hub_dns_subnet_to_hub_nsg" {
   subnet_id                 = azurerm_subnet.hub_dns_subnet.id
   network_security_group_id = azurerm_network_security_group.hub_nsg.id
 }
 
-resource "azurerm_subnet_network_security_group_association" "spoke_subnet_to_spoke_nsg" {
+resource "azurerm_subnet_network_security_group_association" "hub_azure_private_dns_forwarder_subnet_to_hub_nsg" {
   subnet_id                 = azurerm_subnet.hub_private_azure_dns_forwarder_subnet.id
   network_security_group_id = azurerm_network_security_group.hub_nsg.id
 }

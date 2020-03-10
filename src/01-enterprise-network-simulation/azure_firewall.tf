@@ -42,7 +42,7 @@ resource "azurerm_subnet_route_table_association" "firewall_route_table_associat
   route_table_id = azurerm_route_table.firewall_route.id
 }
 
-resource "azurerm_subnet_route_table_association" "firewall_route_table_association_dns" {
+resource "azurerm_subnet_route_table_association" "firewall_route_table_association_azure_private_dns_forwarder" {
   subnet_id      = azurerm_subnet.hub_private_azure_dns_forwarder_subnet.id
   route_table_id = azurerm_route_table.firewall_route.id
 }

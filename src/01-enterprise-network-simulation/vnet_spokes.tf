@@ -4,6 +4,7 @@ resource "azurerm_virtual_network" "spoke_vnet" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   address_space       = each.value.vnet_cidr
+  dns_servers         = [cidrhost(azurerm_subnet.hub_dns_subnet.address_prefix, 4)]
 }
 
 resource "azurerm_subnet" "spoke_subnet_default" {
@@ -67,4 +68,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "example" {
   resource_group_name   = azurerm_resource_group.rg.name
   private_dns_zone_name = azurerm_private_dns_zone.spoke_private_dns_zone[each.key].name
   virtual_network_id    = azurerm_virtual_network.spoke_vnet[each.key].id
+
+  // Auto register VMs
+  registration_enabled = true
 }

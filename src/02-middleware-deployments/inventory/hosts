@@ -1,2 +1,11 @@
 [proxies]
 10.0.2.4 ansible_connection=ssh ansible_user=azureuser
+
+[dns]
+10.10.2.4 ansible_connection=ssh ansible_user=azureuser
+
+[dns-azure-private-dns-forwarder]
+10.10.3.4 ansible_connection=ssh ansible_user=azureuser
+
+[dns-on-prem]
+10.0.2.5 ansible_connection=ssh ansible_user=azureuser
