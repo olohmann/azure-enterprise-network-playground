@@ -64,7 +64,7 @@ __cfg__
 
 resource "local_file" "on_prem_coredns_corefile" {
   content  = local.ansible_on_prem_dns_coredns_corefile
-  filename = "${path.module}/../02-middleware-deployments/roles/cloudalchemy.coredns/templates/onprem_dns_corefile"
+  filename = "${path.module}/../02-middleware-deployments/roles/cloudalchemy.coredns/templates/dns_onprem_corefile"
 }
 
 resource "local_file" "dns_coredns_corefile" {

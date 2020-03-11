@@ -7,7 +7,6 @@
   roles:
     - role: squid
       squid_port: 3128
----
 - name: Install Core DNS
   hosts: dns
   become: yes
@@ -17,17 +16,16 @@
     - coredns_binary_local_dir: /tmp/
   roles:
     - cloudalchemy.coredns
----
 - name: Install Core DNS for Azure Private DNS
-  hosts: dns
+  hosts: dns-azure-private-dns-forwarder
   become: yes
   gather_facts: yes
   vars:
     - coredns_config_file: dns_azure_private_dns_corefile
     - coredns_binary_local_dir: /tmp/
+    - coredns_dns_port: 8053
   roles:
     - cloudalchemy.coredns
----
 - name: Install Core DNS OnPrem
   hosts: dns-on-prem
   become: yes
