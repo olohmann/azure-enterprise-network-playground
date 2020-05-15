@@ -38,10 +38,10 @@ shell.
 
 ```sh
 cd ./src/
-./tf.ps1 -Apply -TfPrefix contoso -TargetPath 01-enterprise-network-simulation -Download -Force -LeaveFirewallOpen -SkipFirewallUpdate -Verbose 
+./tf.ps1 -Apply -Prefix contoso -TargetPath 01-enterprise-network-simulation -Download -Force -LeaveFirewallOpen -SkipFirewallUpdate -Verbose 
 ```
 
-The `-TfPrefix` parameter can be changed to a value that depicts your setup, e.g. 'fabrikam', 'foo', or 'contoso' (regex: "[a-z]+").
+The `-Prefix` parameter can be changed to a value that depicts your setup, e.g. 'fabrikam', 'foo', or 'contoso' (regex: "[a-z]+").
 
 Per default your public key from `~/.ssh/id_rsa.pub` is used to setup the SSH login for the Bastion VM and the Proxy VM. 
 If you want to specify another public key, you can simply setup an environment variable `TF_VAR_public_ssh_key_admin` 
